@@ -366,14 +366,17 @@ function getAbsVal(g, bp, sh) {
   return g[bk]?.[String(sk)] ?? 0;
 }
 function simVal(cohort, bpVal, shVal) {
+  const bp = parseFloat(bpVal) || 0;
+  const sh = parseFloat(shVal) || 0;
+  if (!bp && !sh) return 0;
   if (sMode === 'abs') {
     const ba = BA[reg]?.[cohort];
-    if (!ba || !ba.g || !bpVal || bpVal === '0') return 0;
+    if (!ba || !ba.g || !bp) return 0;
     return getAbsVal(ba.g, bpVal, shVal);
   }
   const cs = CS[reg]?.[cohort];
-  if (!cs || !cs.g || !parseFloat(bpVal)) return 0;
-  return getPctVal(cs.g, parseFloat(bpVal), parseFloat(shVal));
+  if (!cs || !cs.g) return 0;
+  return getPctVal(cs.g, bp, sh);
 }
 
 // ══════════════════════════════════════════════
